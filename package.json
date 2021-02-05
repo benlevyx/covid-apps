@@ -1,5 +1,6 @@
 {
   "name": "covid-apps",
+  "homepage": "https://jovial-joliot-4a5122.netlify.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
