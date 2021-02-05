@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -34,12 +34,6 @@ const StyledCircle = styled.circle`
   stroke-width: 1px;
   opacity: 0.8;
 `;
-
-const StyledText = styled.text`
-  text-anchor: middle;
-  fill: ${colors.white};
-`;
-
 
 const Map = ({ setTooltipContent }) => {
   // Getting Airtable data
@@ -77,7 +71,7 @@ const Map = ({ setTooltipContent }) => {
       const elemState = d.Country.match(/United States \(([a-zA-Z, ]+)\)/);
       let ctr;
       if (elemState) {
-        ctr = states.find(e => e.state == elemState[1]);
+        ctr = states.find(e => e.state === elemState[1]);
       } else {
         ctr = centroids.find(e => e.name === d.Country); 
       }
@@ -104,7 +98,7 @@ const Map = ({ setTooltipContent }) => {
           <StyledCircle />
         </Marker>
       )
-    }
+    } else { return; }
   }).filter(d => d);
 
   console.log(markers);
