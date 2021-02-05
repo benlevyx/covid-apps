@@ -98,7 +98,7 @@ const Map = ({ setTooltipContent }) => {
           <StyledCircle />
         </Marker>
       )
-    } else { return; }
+    } else { return null; }
   }).filter(d => d);
 
   console.log(markers);
