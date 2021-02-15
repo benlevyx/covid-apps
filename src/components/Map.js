@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import { colors } from '../assets/globalStyles';
 import Airtable from 'airtable';
-import { csv } from 'd3';
+import { csv, hierarchy, pack } from 'd3';
 import countryCentroids from '../data/country_centroids.csv';
 import stateCentroids from '../data/state_centroids.csv';
 
@@ -65,8 +65,13 @@ const Map = ({ setTooltipContent }) => {
   }, [])
 
 
+  // Count number of markers per country
+  const countryCounts = {};
+  data.forEach(({ Country }) => countryCounts[Country] = (countryCounts[Country] || 0)+ 1);
+  
+  let markerData;
   if (data && centroids && states) {
-    data.forEach(d => {
+    markerData = data.map(d => {
       // Find country centroid
       const elemState = d.Country.match(/United States \(([a-zA-Z, ]+)\)/);
       let ctr;
@@ -75,14 +80,40 @@ const Map = ({ setTooltipContent }) => {
       } else {
         ctr = centroids.find(e => e.name === d.Country); 
       }
+      const res = {...d}
       if (ctr) {
-        d.coordinates = [+ctr.Longitude, +ctr.Latitude];
-      } else {
+        res.coordinates = [+ctr.Longitude, +ctr.Latitude];
       }
+      return res;
     });
   }
 
-  const markers = data.map(({ Name, Country, coordinates }, i) => {
+  const packGenerator = pack().radius(() => 0.8).padding(1);
+
+  Object.entries(countryCounts).forEach(([country, count], i) => {
+    if (count > 1) {
+      const countryApps = markerData.filter(({ Country }) => Country === country);
+      const flatHierarchy = hierarchy({children: countryApps}).count();
+      const root = packGenerator(flatHierarchy);
+      const packed = root.leaves()
+      console.log(packed);
+  
+      // Offset each app's coordinates by the packed position
+      console.log(countryApps);
+      console.log(packed);
+      countryApps.forEach((app, i) => {
+        if (app.coordinates) {
+          const offsetApp = packed[i];
+          app.coordinates = [
+            app.coordinates[0] + offsetApp.x - root.x, 
+            app.coordinates[1] + offsetApp.y - root.y
+          ];
+        }
+      })
+    }
+  })
+
+  const markers = markerData.map(({ Name, Country, coordinates }, i) => {
     if (coordinates) {
       return (
         <Marker
@@ -100,8 +131,6 @@ const Map = ({ setTooltipContent }) => {
       )
     } else { return null; }
   }).filter(d => d);
-
-  console.log(markers);
 
   return (
     <StyledDiv>
