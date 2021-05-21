@@ -43,22 +43,22 @@ const Map = ({ setTooltipContent }) => {
 
   useEffect(() => {
     const collectedRecords = [];
-    const base = new Airtable({apiKey: 'keywRM6loIt7lA1z5'}).base('appwVZRJnqecAwE8j');
+    const base = new Airtable({ apiKey: 'keywRM6loIt7lA1z5' }).base('appwVZRJnqecAwE8j');
     base('apps_merged')
-    .select({view: "Grid view"})
-    .eachPage(
-      (records, fetchNextPage) => {
-        records.forEach(r => collectedRecords.push(r.fields))
-        fetchNextPage();
-      },
-      err => {
-        if (err) {
-          console.error(err);
-          return;
+      .select({ view: "Grid view" })
+      .eachPage(
+        (records, fetchNextPage) => {
+          records.forEach(r => collectedRecords.push(r.fields))
+          fetchNextPage();
+        },
+        err => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          setData(collectedRecords);
         }
-        setData(collectedRecords);
-      }
-    );
+      );
 
     csv(countryCentroids).then(parsedData => setCentroids(parsedData));
     csv(stateCentroids).then(parsedData => setStates(parsedData))
@@ -67,8 +67,8 @@ const Map = ({ setTooltipContent }) => {
 
   // Count number of markers per country
   const countryCounts = {};
-  data.forEach(({ Country }) => countryCounts[Country] = (countryCounts[Country] || 0)+ 1);
-  
+  data.forEach(({ Country }) => countryCounts[Country] = (countryCounts[Country] || 0) + 1);
+
   let markerData;
   if (data && centroids && states) {
     markerData = data.map(d => {
@@ -78,9 +78,9 @@ const Map = ({ setTooltipContent }) => {
       if (elemState) {
         ctr = states.find(e => e.state === elemState[1]);
       } else {
-        ctr = centroids.find(e => e.name === d.Country); 
+        ctr = centroids.find(e => e.name === d.Country);
       }
-      const res = {...d}
+      const res = { ...d }
       if (ctr) {
         res.coordinates = [+ctr.Longitude, +ctr.Latitude];
       }
@@ -93,11 +93,11 @@ const Map = ({ setTooltipContent }) => {
   Object.entries(countryCounts).forEach(([country, count], i) => {
     if (count > 1) {
       const countryApps = markerData.filter(({ Country }) => Country === country);
-      const flatHierarchy = hierarchy({children: countryApps}).count();
+      const flatHierarchy = hierarchy({ children: countryApps }).count();
       const root = packGenerator(flatHierarchy);
       const packed = root.leaves()
       console.log(packed);
-  
+
       // Offset each app's coordinates by the packed position
       console.log(countryApps);
       console.log(packed);
@@ -105,7 +105,7 @@ const Map = ({ setTooltipContent }) => {
         if (app.coordinates) {
           const offsetApp = packed[i];
           app.coordinates = [
-            app.coordinates[0] + offsetApp.x - root.x, 
+            app.coordinates[0] + offsetApp.x - root.x,
             app.coordinates[1] + offsetApp.y - root.y
           ];
         }
@@ -137,7 +137,7 @@ const Map = ({ setTooltipContent }) => {
       <ComposableMap data-tip="" height={300}>
         <ZoomableGroup zoom={1}>
           <Geographies geography={geoUrl}>
-            {({ geographies }) => 
+            {({ geographies }) =>
               geographies.map(geo => (
                 <StyledGeo
                   key={geo.rsmKey}

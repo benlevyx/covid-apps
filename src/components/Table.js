@@ -15,7 +15,7 @@ const Table = () => {
     <StyledDiv>
       <StyledIframe
         className="airtable-embed"
-        src="https://airtable.com/embed/shr1hPflyOsvNyl1x?backgroundColor=yellow&viewControls=on"
+        src="https://airtable.com/embed/shrjd2Usi6513G5Q3?backgroundColor=yellow&viewControls=on"
         frameborder="0"
         onmousewheel=""
         width="100%"
