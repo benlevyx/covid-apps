@@ -24,7 +24,7 @@ const Footer = () => {
   return (
     <OuterBox>
       <InnerBox key="names">
-        © 2020 <Link href="https://benjaminlevy.ca" target="_blank">Benjamin Levy</Link> and <Link href="https://mpstewart.net" target="_blank">Matthew Stewart</Link>
+        © 2021 <Link href="https://benjaminlevy.ca" target="_blank">Benjamin Levy</Link> and <Link href="https://mpstewart.net" target="_blank">Matthew Stewart</Link>
       </InnerBox>
       <InnerBox key="contact">
         Suggestions? <Link href="mailto:benjaminlevy@g.harvard.edu">Contact us here</Link>
