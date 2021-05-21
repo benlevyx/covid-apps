@@ -27,7 +27,7 @@ const Footer = () => {
         © 2021 <Link href="https://benjaminlevy.ca" target="_blank">Benjamin Levy</Link> and <Link href="https://mpstewart.net" target="_blank">Matthew Stewart</Link>
       </InnerBox>
       <InnerBox key="contact">
-        Suggestions? <Link href="mailto:benjaminlevy@g.harvard.edu">Contact us here</Link>
+        Suggestions? <Link href="mailto:Benjamin.Levy@quantumblack.com">Contact us here</Link>
       </InnerBox>
     </OuterBox>
   )
