@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-import { colors } from '../assets/globalStyles';
-
+import styled from "styled-components";
+import { colors } from "../assets/globalStyles";
 
 const OuterBox = styled.div`
   display: flex;
@@ -19,18 +18,25 @@ const Link = styled.a`
   color: ${colors.white};
 `;
 
-
 const Footer = () => {
   return (
     <OuterBox>
       <InnerBox key="names">
-        © 2021 <Link href="https://benjaminlevy.ca" target="_blank">Benjamin Levy</Link> and <Link href="https://mpstewart.net" target="_blank">Matthew Stewart</Link>
+        © 2021{" "}
+        <Link href="https://benjaminlevy.ca" target="_blank">
+          Benjamin Levy
+        </Link>{" "}
+        and{" "}
+        <Link href="https://mpstewart.net" target="_blank">
+          Matthew Stewart
+        </Link>
       </InnerBox>
       <InnerBox key="contact">
-        Suggestions? <Link href="mailto:Benjamin.Levy@quantumblack.com">Contact us here</Link>
+        Suggestions?{" "}
+        <Link href="mailto:levy.b.j.s@gmail.com">Contact us here</Link>
       </InnerBox>
     </OuterBox>
-  )
-}
+  );
+};
 
 export default Footer;
